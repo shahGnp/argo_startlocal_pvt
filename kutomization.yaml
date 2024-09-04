@@ -3,5 +3,8 @@ kind: Kustomization
 namespace: argocd
 
 resources:
+  - infra/project.yaml
+  - infra/app.yaml
   - redis/project.yaml
   - redis/app.yaml
+  - app/project.yaml

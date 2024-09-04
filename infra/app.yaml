@@ -1,0 +1,47 @@
+1.22 KiB
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: image-updater
+  namespace: argo-cd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: ci-cd
+  destination:
+    namespace: argo-cd
+    server: https://kubernetes.default.svc
+  source:
+    chart: argocd-image-updater
+    repoURL: "https://argoproj.github.io/argo-helm"
+    targetRevision: 0.9.1
+    helm:
+      # Release name override (defaults to application name)
+      releaseName: image-updater
+      values: |
+        podSecurityContext:
+          fsGroup: 1001
+        securityContext:
+          runAsUser: 1001
+          runAsNonRoot: true
+          privileged: false
+          readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+          seccompProfile:
+            type: "RuntimeDefault"
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/worker
+                      operator: Exists
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
