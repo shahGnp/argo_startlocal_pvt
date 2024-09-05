@@ -1,6 +1,7 @@
 resources:
   - infra/project.yaml
   - infra/app.yaml
+  - infra/openebs.yaml
   - redis/project.yaml
   - redis/app.yaml
   - app/project.yaml
