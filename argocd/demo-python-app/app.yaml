@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd-image-updater.argoproj.io/image-list: docker.io/shahgnp/demo-python-app:*
+    argocd-image-updater.argoproj.io/image-list: docker.io/shahgnp/demo-python-app:~v0.1
 spec:
   destination:
     namespace: demo-python-app
