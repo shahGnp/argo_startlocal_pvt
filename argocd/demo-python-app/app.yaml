@@ -15,9 +15,6 @@ spec:
     path: demo-python-app
     repoURL: 'https://github.com/startsml/helm_startlocal.git'
     targetRevision: HEAD
-    values: |
-      auth:
-        existingSecret: helm-startsml
   project: demo-python-app
   syncPolicy:
     automated:

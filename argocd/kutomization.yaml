@@ -7,4 +7,3 @@ resources:
   - app/project.yaml
   - demo-python-app/app.yaml
   - demo-python-app/project.yaml
-  - demo-python-app/values.yaml
