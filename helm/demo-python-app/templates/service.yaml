@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}-service
+spec:
+  selector:
+    app: {{ .Values.appName }}
+  ports:
+    - port: {{ .Values.port }} # Default port for image
+      targetPort: {{ .Values.targetPort }}
