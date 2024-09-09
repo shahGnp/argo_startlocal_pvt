@@ -12,10 +12,10 @@ spec:
     namespace: demo-python-app
     server: 'https://kubernetes.default.svc'
   source:
-    path: demo-python-app
+    path: helm/demo-python-app
     repoURL: 'https://github.com/startsml/argo_startlocal.git'
     targetRevision: HEAD
-  project: helm/demo-python-app
+  project: demo-python-app
   syncPolicy:
     automated:
       prune: true
