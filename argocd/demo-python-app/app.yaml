@@ -16,7 +16,7 @@ spec:
   source:
     path: helm/demo-python-app
     repoURL: 'https://github.com/startsml/argo_startlocal.git'
-    targetRevision: HEAD
+    targetRevision: main
   project: demo-python-app
   syncPolicy:
     automated:
