@@ -13,9 +13,9 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: demo-python-app
-    repoURL: 'https://github.com/startsml/helm_startlocal.git'
+    repoURL: 'https://github.com/startsml/argo_startlocal.git'
     targetRevision: HEAD
-  project: demo-python-app
+  project: helm/demo-python-app
   syncPolicy:
     automated:
       prune: true
