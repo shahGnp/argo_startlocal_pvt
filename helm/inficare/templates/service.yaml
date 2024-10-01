@@ -7,9 +7,17 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
+    {{- if and .Values.service.http .Values.service.http.port }}
+    - port: {{ .Values.service.http.port }}
+      targetPort: {{ default "http" .Values.containers.ports.http.containerPort }}
+      protocol: {{ default "TCP" .Values.service.protocol }}
       name: http
+    {{- end }}
+    {{- if and .Values.service.https .Values.service.https.port }}
+    - port: {{ .Values.service.https.port }}
+      targetPort: {{ default "http" .Values.containers.ports.https.containerPort }}
+      protocol: {{ default "TCP" .Values.service.protocol }}
+      name: https
+    {{- end }}
   selector:
     {{- include "inficare.selectorLabels" . | nindent 4 }}
