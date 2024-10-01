@@ -71,7 +71,7 @@ spec:
           vault: false
           name: frontend
           env: dev
-          cert: true
+          cert: false
   syncPolicy:
     automated:
       prune: true
