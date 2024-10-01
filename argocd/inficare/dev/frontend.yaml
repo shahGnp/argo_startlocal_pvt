@@ -23,6 +23,8 @@ spec:
           tag: 4353
           private: true
           secretref: acr-secret
+        ingress:
+          enabled: false
         service:
           name: frontend-dev
         serviceAccount:
