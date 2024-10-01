@@ -171,3 +171,4 @@ app:
   name: inficare
   vault: true
   env: dev
+  cert: false

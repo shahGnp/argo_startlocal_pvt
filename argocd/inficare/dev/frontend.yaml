@@ -34,7 +34,14 @@ spec:
         livenessProbe:
           port: 3000
         ingress:
-          enabled: false
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: hbl-admin.iremit.com.my
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
         service:
           name: frontend-dev
         serviceAccount:
@@ -64,6 +71,7 @@ spec:
           vault: false
           name: frontend
           env: dev
+          cert: true
   syncPolicy:
     automated:
       prune: true
