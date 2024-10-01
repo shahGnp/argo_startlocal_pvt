@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "inficare.fullname" . }}-test-connection"
+  labels:
+    {{- include "inficare.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "inficare.fullname" . }}:{{ .Values.service.http.port }}']
+  restartPolicy: Never

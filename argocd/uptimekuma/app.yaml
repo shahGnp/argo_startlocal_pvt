@@ -7,7 +7,7 @@ source:
 
       persistence:
         enabled: true
-        storageClass: longhorn
+        storageClass: nfsa-client
       podSecurityContext:
         fsGroup: 1000
         seccompProfile:

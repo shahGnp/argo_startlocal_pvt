@@ -1,3 +1,5 @@
 # argo_startlocal
 
-Argo CD repo to configure the organization's internal rke2 test cluster.
+Argo CD repo to deploy apps using helmcharts
+
+/_ expand read me to include argo and helm _/
