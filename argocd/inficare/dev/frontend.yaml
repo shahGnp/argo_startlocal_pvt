@@ -23,6 +23,12 @@ spec:
           tag: 4353
           private: true
           secretref: acr-secret
+        containers:
+          ports:
+            http:
+              name: http
+              containerPort: 3000
+              protocol: TCP
         ingress:
           enabled: false
         service:
