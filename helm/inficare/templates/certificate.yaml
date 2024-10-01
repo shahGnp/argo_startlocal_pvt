@@ -1,0 +1,61 @@
+{{- if .Values.generatecert.enabled }}
+{{- if .Values.containers.mountSSLSecret.enabled }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Release.Name }}-cert
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "inficare.labels" . | nindent 4 }}
+  annotations:
+    {{- include "inficare.annotations" . | nindent 4 }}
+spec:
+  secretName: {{ .Release.Name }}-cert
+  issuerRef:
+  {{- if eq .Values.app.env "production" }}
+    name: letsencrypt-production
+  {{ else }}
+    name: letsencrypt-staging
+  {{- end }}
+    kind: ClusterIssuer
+  renewBefore: 192h # 8d
+  subject:
+    organizations:
+      - START SMALL
+    organizationalUnits:
+      - WEB TEAM
+  commonName: {{ .Values.virtualservice.hosts }}
+  dnsNames:
+  - {{ .Values.virtualservice.hosts }}
+{{ else }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Release.Name }}-cert
+  namespace: istio-system
+  labels:
+    {{- include "inficare.labels" . | nindent 4 }}
+  annotations:
+    {{- include "inficare.annotations" . | nindent 4 }}
+spec:
+  secretName: {{ .Release.Name }}-cert
+  issuerRef:
+  {{- if eq .Values.app.env "production" }}
+    name: letsencrypt-production
+  {{ else }}
+    name: letsencrypt-staging
+  {{- end }}
+    kind: ClusterIssuer
+  renewBefore: 192h # 8d
+  subject:
+    organizations:
+      - START SMALL
+    organizationalUnits:
+      - WEB TEAM
+  commonName: {{ .Values.virtualservice.hosts }}
+  dnsNames:
+  - {{ .Values.virtualservice.hosts }}
+{{- end }}
+{{- end }}
