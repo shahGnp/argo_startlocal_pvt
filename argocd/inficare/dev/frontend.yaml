@@ -29,6 +29,10 @@ spec:
               name: http
               containerPort: 3000
               protocol: TCP
+        readinessProbe:
+          port: 3000
+        livenessProbe:
+          port: 3000
         ingress:
           enabled: false
         service:
