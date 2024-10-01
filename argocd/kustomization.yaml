@@ -7,4 +7,5 @@ resources:
   - app/project.yaml
   - demo-python-app/app.yaml
   - demo-python-app/project.yaml
+  - inficare/dev/namespace.yaml
   - inficare/dev/project.yaml
