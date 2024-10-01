@@ -8,7 +8,9 @@ metadata:
     {{- include "inficare.annotations" . | nindent 4 }}
 spec:
   {{- if not .Values.hpa.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.repicaCount }}
+  {{ else }}
+  replicas: {{ .Values.hpa.minReplicas }}
   {{- end }}
   selector:
     matchLabels:
