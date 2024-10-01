@@ -11,7 +11,17 @@ repos:
         args: ["--allow-missing-credentials"]
       - id: check-yaml
         args: [--allow-multiple-documents]
+        exclude: ^.*/templates/.*$
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v4.0.0-alpha.8" # Use the sha or tag you want to point at
+    rev: v4.0.0-alpha.8  # Replace with the latest version
     hooks:
       - id: prettier
+        types_or: [css, javascript]
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.23
+    hooks:
+      - id: helmlint
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks

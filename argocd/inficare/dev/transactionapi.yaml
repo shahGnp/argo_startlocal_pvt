@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: transactionapi
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: inficare-dev
+  destination:
+    namespace: inficare-dev
+    server: https://kubernetes.default.svc
+  source:
+    path: helm/inficare
+    repoURL: "https://github.com/startsml/argo_startlocal.git"
+    targetRevision: main
+    helm:
+      # Release name override (defaults to application name)
+      releaseName: transactionapi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
