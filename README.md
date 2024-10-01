@@ -2,4 +2,4 @@
 
 Argo CD repo to deploy apps using helmcharts
 
-/_ expand read me_/
+/_ expand read me to include argo and helm _/
