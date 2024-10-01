@@ -9,3 +9,4 @@ resources:
   - demo-python-app/project.yaml
   - inficare/dev/namespace.yaml
   - inficare/dev/project.yaml
+  - inficare/dev/frontend.yaml
