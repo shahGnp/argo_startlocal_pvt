@@ -4,8 +4,10 @@ metadata:
   name: {{ include "inficare.fullname" . }}
   labels:
     {{- include "inficare.labels" . | nindent 4 }}
+  annotations:
+    {{- include "inficare.annotations" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  {{- if not .Values.hpa.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
@@ -13,23 +15,60 @@ spec:
       {{- include "inficare.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        {{- if .Values.app.vault}}
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/ca-cert: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        vault.hashicorp.com/role: "{{ .Values.app.name}}-{{ .Values.app.env}}"
+        vault.hashicorp.com/agent-inject-secret-config: '{{ .Values.app.name}}/{{ .Values.app.env}}'
+        vault.hashicorp.com/agent-inject-template-config: |
+          {{`{{- with secret `}}"{{ .Values.app.name }}/{{ .Values.app.env}}"{{` -}}`}}
+          {{`{{- range $k, $v := .Data.data }}`}}
+          {{`export {{ $k }}="{{ $v }}"`}}
+          {{`{{- end }}`}}
+          {{`{{- end }}`}}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "inficare.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- if .Values.image.private }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ .Values.image.secretref }}
       {{- end }}
       serviceAccountName: {{ include "inficare.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if  .Values.podSecurityContext.enabled }}
+      securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
+      topologySpreadConstraints:
+      - topologyKey: {{ .Values.deployment.topologySpreadConstraints.topologyKey }}
+        {{- if not .Values.hpa.enabled }}
+        maxSkew: {{ .Values.deployment.topologySpreadConstraints.maxSkew }}
+        {{ else }}
+        maxSkew: {{ .Values.hpa.minReplicas }}
+        {{- end }}
+        whenUnsatisfiable: {{ .Values.deployment.topologySpreadConstraints.whenUnsatisfiable }}
+        labelSelector:
+          matchLabels:
+            {{- include "inficare.selectorLabels" . | nindent 14 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

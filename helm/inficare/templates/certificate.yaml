@@ -1,34 +1,4 @@
-{{- if .Values.generatecert.enabled }}
-{{- if .Values.containers.mountSSLSecret.enabled }}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: {{ .Release.Name }}-cert
-  namespace: {{ .Values.namespace }}
-  labels:
-    {{- include "inficare.labels" . | nindent 4 }}
-  annotations:
-    {{- include "inficare.annotations" . | nindent 4 }}
-spec:
-  secretName: {{ .Release.Name }}-cert
-  issuerRef:
-  {{- if eq .Values.app.env "production" }}
-    name: letsencrypt-production
-  {{ else }}
-    name: letsencrypt-staging
-  {{- end }}
-    kind: ClusterIssuer
-  renewBefore: 192h # 8d
-  subject:
-    organizations:
-      - START SMALL
-    organizationalUnits:
-      - WEB TEAM
-  commonName: {{ .Values.virtualservice.hosts }}
-  dnsNames:
-  - {{ .Values.virtualservice.hosts }}
-{{ else }}
+{{- if .Values.ingress.enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -42,7 +12,7 @@ metadata:
 spec:
   secretName: {{ .Release.Name }}-cert
   issuerRef:
-  {{- if eq .Values.app.env "production" }}
+  {{- if eq .Values.app.env "prod" }}
     name: letsencrypt-production
   {{ else }}
     name: letsencrypt-staging
@@ -51,11 +21,12 @@ spec:
   renewBefore: 192h # 8d
   subject:
     organizations:
-      - START SMALL
+      - INFICARE PVT LTD
     organizationalUnits:
       - WEB TEAM
-  commonName: {{ .Values.virtualservice.hosts }}
+  commonName: {{ index .Values.ingress.hosts 0 "host" }}  # Get the first host as the common name
   dnsNames:
-  - {{ .Values.virtualservice.hosts }}
-{{- end }}
+  {{- range .Values.ingress.hosts }}  # Iterate over hosts for dnsNames
+    - {{ .host }}  # Populate each host as a DNS name
+  {{- end }}
 {{- end }}
