@@ -40,14 +40,23 @@ helm.sh/chart: {{ include "inficare.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/component: {{ .Values.app.name}}
 {{- end }}
 
 {{/*
 Selector labels
 */}}
 {{- define "inficare.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "inficare.name" . }}
+app.kubernetes.io/name: {{ .Release.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Common annotations
+*/}}
+{{- define "inficare.annotations" -}}
+managed-by: devops-team
 {{- end }}
 
 {{/*

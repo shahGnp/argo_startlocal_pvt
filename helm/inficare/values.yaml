@@ -1,66 +1,102 @@
-# Default values for inficare.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+---
+namespace: "inficare"
+repicaCount: 1
 
-# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
-replicaCount: 1
+service:
+  type: "ClusterIP"
+  http:
+    port: 80
+    targetPort: 80
+  protocol: "TCP"
 
-# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+
+deployment:
+  securityContext:
+    fsGroup: 1020
+  minReadySeconds: 10
+  strategyType: "RollingUpdate"
+  rollingUpdateMaxUnavailable: 1
+  rollingUpdateMaxSurge: 0
+  terminationGracePeriodSeconds: 60
+  topologySpreadConstraints:
+    maxSkew: 1
+    topologyKey: "kubernetes.io/hostname"
+    whenUnsatisfiable: "ScheduleAnyway"
+
+containers:
+  ports:
+    http:
+      name: http
+      containerPort: 80
+      protocol: TCP
+  resources:
+    limits:
+      cpu: 300m
+      memory: 300Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+
 image:
-  repository: nginx
-  # This sets the pull policy for images.
+  repository: devhblimageregistry.azurecr.io/frontendadmin
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
+  private: true
+  secretref: my-registry-secret
 
-# This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets: []
-# This is to override the chart name.
+readinessProbe:
+  path: /
+  port: http
+  initialDelaySeconds: 60
+  periodSeconds: 20
+  successThreshold: 1
+  timeoutSeconds: 10
+  failureThreshold: 3
+
+livenessProbe:
+  path: /
+  port: http
+  initialDelaySeconds: 10
+  periodSeconds: 15
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 2
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    cpuUtilizationPercentage: 80
+    memoryUtilizationPercentage: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 0
+      policies:
+        type: Percent
+        value: 100
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        type: Pods
+        value: 3
+        periodSeconds: 60
+
 nameOverride: ""
 fullnameOverride: ""
 
-# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Automatically mount a ServiceAccount's API credentials?
   automount: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
 
-# This is for setting Kubernetes Annotations to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-podAnnotations: {}
-# This is for setting Kubernetes Labels to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-podLabels: {}
+networkPolicy:
+  enabled: true
+  ingress: {}
 
-podSecurityContext:
-  {}
-  # fsGroup: 2000
-
-securityContext:
-  {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-service:
-  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-  type: ClusterIP
-  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
-
-# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations:
     {}
@@ -76,30 +112,36 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources:
-  {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+podSecurityContext:
+  enabled: false
+  fsGroup: 1001
+  seccompProfile:
+    type: RuntimeDefault
 
-# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
+containerSecurityContext:
+  enabled: false
+  runAsUser: 1001
+  runAsNonRoot: true
+  privileged: false
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: "RuntimeDefault"
 
-# This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+podAnnotations: {}
+
+podLabels: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -126,5 +168,7 @@ tolerations: []
 
 affinity: {}
 
-generatecert:
-  enabled: false
+app:
+  name: inficare
+  vault: true
+  env: dev
