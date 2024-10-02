@@ -8,7 +8,9 @@ metadata:
     {{- include "inficare.annotations" . | nindent 4 }}
 spec:
   {{- if not .Values.hpa.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.repicaCount }}
+  {{ else }}
+  replicas: {{ .Values.hpa.minReplicas }}
   {{- end }}
   selector:
     matchLabels:
@@ -87,10 +89,24 @@ spec:
               containerPort: {{ .Values.containers.ports.http.containerPort }}
               protocol: {{ default "TCP" .Values.containers.ports.http.protocol }}
             {{- end }}
-          livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.readinessProbe.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.path }}
+              port: {{ .Values.livenessProbe.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}

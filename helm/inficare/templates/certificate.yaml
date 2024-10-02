@@ -1,10 +1,9 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.app.cert }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ .Release.Name }}-cert
-  namespace: istio-system
   labels:
     {{- include "inficare.labels" . | nindent 4 }}
   annotations:
