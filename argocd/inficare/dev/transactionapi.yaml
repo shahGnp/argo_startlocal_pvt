@@ -2,22 +2,82 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: transactionapi
+  name: transaction-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "transactionapi=devhblimageregistry.azurecr.io/transactionapi"
+    argocd-image-updater.argoproj.io/transactionapi.allow-tags: regexp:^main-([0-9]{10})-([a-f0-9]{7})
+    argocd-image-updater.argoproj.io/write-back-method: "git:secret:argocd/argocd-startsml"
+    argocd-image-updater.argoproj.io/transactionapi.pull-secret: "secret:argocd/acr-secret"
+    argocd-image-updater.argoproj.io/transactionapi.update-strategy: name
+    argocd-image-updater.argoproj.io/git-branch: "main"
 spec:
-  project: inficare-dev
+  project: dev
   destination:
-    namespace: inficare-dev
+    namespace: dev
     server: https://kubernetes.default.svc
   source:
     path: helm/inficare
     repoURL: "https://github.com/startsml/argo_startlocal.git"
     targetRevision: main
     helm:
-      # Release name override (defaults to application name)
-      releaseName: transactionapi
+      values: |
+        namespace: dev
+        image:
+          repository: devhblimageregistry.azurecr.io/transactionapi
+          tag: main-1727413565-933b862
+          private: true
+          secretref: acr-secret
+        containers:
+          ports:
+            http:
+              name: http
+              containerPort: 8080
+              protocol: TCP
+        readinessProbe:
+          port: 8080
+        livenessProbe:
+          port: 8080
+        ingress:
+          enabled: true
+          className: ingress-external
+          hosts:
+            - host: hbl-admin.iremit.com.my
+              paths:
+                - path: /transaction/
+                  pathType: ImplementationSpecific
+        service:
+          name: transaction-dev
+        serviceAccount:
+          name: transaction-dev-sa
+        podSecurityContext:
+          enabled: true
+          fsGroup: 1000
+        containerSecurityContext:
+          enabled: true
+          runAsUser: 1000
+          runAsNonRoot: true
+          privileged: false
+          readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+          seccompProfile:
+            type: "RuntimeDefault"
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/worker
+                      operator: Exists
+        app:
+          vault: false
+          name: transaction
+          env: dev
+          cert: false
   syncPolicy:
     automated:
       prune: true
