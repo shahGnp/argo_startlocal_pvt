@@ -5,10 +5,13 @@ metadata:
   name: {{ include "inficare.fullname" . }}
   labels:
     {{- include "inficare.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
+    {{- if and .Values.ingress.enabled (eq .Values.ingress.className "ingress-internal") .Values.ingress.whiteList.ips }}
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.whiteList.ips | join ", " }}
+    {{- end }}
 spec:
   {{- with .Values.ingress.className }}
   ingressClassName: {{ . }}
