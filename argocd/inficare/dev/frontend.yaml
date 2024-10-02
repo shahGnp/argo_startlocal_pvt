@@ -5,10 +5,11 @@ metadata:
   name: frontend-dev
   namespace: argocd
   finalizers:
+    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: devhblimageregistry.azurecr.io/frontendadmin:~4353
     argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/argocd-startsml
-    argocd-image-updater.argoproj.io/my-image.pull-secret: acr-secret
+    argocd-image-updater.argoproj.io/my-image.pull-secret: argocd/acr-secret
     argocd-image-updater.argoproj.io/git-branch: main
 spec:
   project: dev
