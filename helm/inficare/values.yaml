@@ -11,7 +11,7 @@ service:
 
 deployment:
   securityContext:
-    fsGroup: 1020
+    fsGroup: 1001
   minReadySeconds: 10
   strategyType: "RollingUpdate"
   rollingUpdateMaxUnavailable: 1
@@ -106,6 +106,9 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
+  whiteList:
+    ips:
+
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
