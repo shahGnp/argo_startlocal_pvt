@@ -10,3 +10,4 @@ resources:
   - inficare/dev/namespace.yaml
   - inficare/dev/project.yaml
   - inficare/dev/frontend.yaml
+  - inficare/dev/identity.yaml
