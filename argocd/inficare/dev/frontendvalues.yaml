@@ -1,0 +1,54 @@
+namespace: dev
+image:
+  repository: devhblimageregistry.azurecr.io/frontendadmin
+  tag: 4353
+  private: true
+  secretref: acr-secret
+containers:
+  ports:
+    http:
+      name: http
+      containerPort: 3000
+      protocol: TCP
+readinessProbe:
+  port: 3000
+livenessProbe:
+  port: 3000
+ingress:
+  enabled: true
+  className: ingress-external
+  hosts:
+    - host: hbl-admin.iremit.com.my
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+service:
+  name: frontend-dev
+serviceAccount:
+  name: dev-sa
+podSecurityContext:
+  enabled: true
+  fsGroup: 1000
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsNonRoot: true
+  privileged: false
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: "RuntimeDefault"
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-role.kubernetes.io/worker
+              operator: Exists
+app:
+  vault: false
+  name: frontend
+  env: dev
+  cert: false
