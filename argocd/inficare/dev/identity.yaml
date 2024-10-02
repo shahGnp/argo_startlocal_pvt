@@ -27,7 +27,7 @@ spec:
         namespace: dev
         image:
           repository: devhblimageregistry.azurecr.io/identityservice
-          tag: main-1427361340-46a0e84
+          tag: main-1727361340-46a0e84
           private: true
           secretref: acr-secret
         containers:
