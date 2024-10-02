@@ -51,7 +51,7 @@ spec:
         service:
           name: identity-dev
         serviceAccount:
-          name: dev-sa
+          name: identity-dev-sa
         podSecurityContext:
           enabled: true
           fsGroup: 1000

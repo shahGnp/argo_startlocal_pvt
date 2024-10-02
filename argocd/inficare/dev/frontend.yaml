@@ -49,7 +49,7 @@ spec:
         service:
           name: frontend-dev
         serviceAccount:
-          name: dev-sa
+          name: frontend-dev-sa
         podSecurityContext:
           enabled: true
           fsGroup: 1000
