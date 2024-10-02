@@ -7,10 +7,10 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd-image-updater.argoproj.io/image-list: devhblimageregistry.azurecr.io/frontendadmin:~4353
-    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/argocd-startsml
-    argocd-image-updater.argoproj.io/frontendadmin.pull-secret: secret:argocd/acr-secret
-    argocd-image-updater.argoproj.io/git-branch: main
+    argocd-image-updater.argoproj.io/image-list: "devhblimageregistry.azurecr.io/frontendadmin:~4353"
+    argocd-image-updater.argoproj.io/write-back-method: "git:secret:argocd/argocd-startsml"
+    argocd-image-updater.argoproj.io/frontendadmin.pull-secret: "secret:argocd/acr-secret"
+    argocd-image-updater.argoproj.io/git-branch: "main"
 spec:
   project: dev
   destination:
@@ -21,8 +21,61 @@ spec:
     repoURL: "https://github.com/startsml/argo_startlocal.git"
     targetRevision: main
     helm:
-      valueFiles:       # Specify the path to values files if any
-        - frontendvalues.yaml
+      values: |
+        namespace: dev
+        image:
+          repository: devhblimageregistry.azurecr.io/frontendadmin
+          tag: 4353
+          private: true
+          secretref: acr-secret
+        containers:
+          ports:
+            http:
+              name: http
+              containerPort: 3000
+              protocol: TCP
+        readinessProbe:
+          port: 3000
+        livenessProbe:
+          port: 3000
+        ingress:
+          enabled: true
+          className: ingress-external
+          hosts:
+            - host: hbl-admin.iremit.com.my
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+        service:
+          name: frontend-dev
+        serviceAccount:
+          name: dev-sa
+        podSecurityContext:
+          enabled: true
+          fsGroup: 1000
+        containerSecurityContext:
+          enabled: true
+          runAsUser: 1000
+          runAsNonRoot: true
+          privileged: false
+          readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+          seccompProfile:
+            type: "RuntimeDefault"
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/worker
+                      operator: Exists
+        app:
+          vault: false
+          name: frontend
+          env: dev
+          cert: false
   syncPolicy:
     automated:
       prune: true
