@@ -7,11 +7,11 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd-image-updater.argoproj.io/image-list: "transactionapi=devhblimageregistry.azurecr.io/transactionapi"
-    argocd-image-updater.argoproj.io/transactionapi.allow-tags: regexp:^main-([0-9]{10})-([a-f0-9]{7})
+    argocd-image-updater.argoproj.io/image-list: "transactionservice=devhblimageregistry.azurecr.io/transactionservice"
+    argocd-image-updater.argoproj.io/transactionservice.allow-tags: regexp:^main-([0-9]{10})-([a-f0-9]{7})
     argocd-image-updater.argoproj.io/write-back-method: "git:secret:argocd/argocd-startsml"
-    argocd-image-updater.argoproj.io/transactionapi.pull-secret: "secret:argocd/acr-secret"
-    argocd-image-updater.argoproj.io/transactionapi.update-strategy: name
+    argocd-image-updater.argoproj.io/transactionservice.pull-secret: "secret:argocd/acr-secret"
+    argocd-image-updater.argoproj.io/transactionservice.update-strategy: name
     argocd-image-updater.argoproj.io/git-branch: "main"
 spec:
   project: dev
@@ -26,7 +26,7 @@ spec:
       values: |
         namespace: dev
         image:
-          repository: devhblimageregistry.azurecr.io/transactionapi
+          repository: devhblimageregistry.azurecr.io/transactionservice
           tag: main-1727413565-933b862
           private: true
           secretref: acr-secret
