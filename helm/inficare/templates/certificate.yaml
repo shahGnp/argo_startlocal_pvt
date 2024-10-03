@@ -10,7 +10,7 @@ spec:
   dnsNames:
     - {{ .host }}
   issuerRef:
-    name: {{ if contains "local" .host }}{{ $.Values.app.name }}-selfsigned-issuer{{ else if eq $.Values.app.env "prod" }}{{ $.Values.app.name }}-letsencrypt-production{{ else }}{{ $.Values.app.name }}-letsencrypt-staging{{ end }}
+    name: {{ if contains "local" .host }}selfsigned-issuer{{ else if eq $.Values.app.env "prod" }}-letsencrypt-production{{ else }}-letsencrypt-staging{{ end }}
     kind: ClusterIssuer
 {{- end }}
 {{- end }}
