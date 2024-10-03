@@ -6,11 +6,11 @@ metadata:
   name: {{ .host | replace "." "-" }}-cert
   namespace: {{ $.Release.Namespace }}
 spec:
-  secretName: {{ if contains "local" .host }}{{ .host | replace "." "-" }}-cert-tls{{ else }}{{ .host }}-cert-tls{{ end }}
+  secretName: {{ if contains "local" .host }}{{ $.Values.app.name }}-{{ .host | replace "." "-" }}-cert-tls{{ else }}{{ $.Values.app.name }}-{{ .host }}-cert-tls{{ end }}
   dnsNames:
     - {{ .host }}
   issuerRef:
-    name: {{ if contains "local" .host }}selfsigned-issuer{{ else if eq $.Values.app.env "prod" }}letsencrypt-production{{ else }}letsencrypt-staging{{ end }}
+    name: {{ if contains "local" .host }}{{ $.Values.app.name }}-selfsigned-issuer{{ else if eq $.Values.app.env "prod" }}{{ $.Values.app.name }}-letsencrypt-production{{ else }}{{ $.Values.app.name }}-letsencrypt-staging{{ end }}
     kind: ClusterIssuer
 {{- end }}
 {{- end }}
