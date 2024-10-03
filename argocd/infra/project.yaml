@@ -23,6 +23,9 @@ spec:
     - server: https://kubernetes.default.svc
       name: in-cluster
       namespace: metallb-system
+    - server: https://kubernetes.default.svc
+      name: in-cluster
+      namespace: cert-manager
   # Deny all cluster-scoped resources from being created, except for Namespace
   clusterResourceWhitelist:
     - group: "*"
