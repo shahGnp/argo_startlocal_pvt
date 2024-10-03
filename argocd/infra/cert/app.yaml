@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/startsml/argo_startlocal.git
     targetRevision: HEAD  # Use the branch name or tag where your manifests are
-    path: cert/manifests  # Path to the directory in the Git repo containing the YAML files
+    path: argocd/infra/cert/manifests  # Path to the directory in the Git repo containing the YAML files
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager  # Where the resources will be deployed
