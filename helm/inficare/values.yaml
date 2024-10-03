@@ -44,22 +44,24 @@ image:
   secretref: my-registry-secret
 
 readinessProbe:
-  path: /
-  port: http
-  initialDelaySeconds: 60
-  periodSeconds: 20
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
   successThreshold: 1
-  timeoutSeconds: 10
+  timeoutSeconds: 2
   failureThreshold: 3
 
 livenessProbe:
-  path: /
-  port: http
+  httpGet:
+    path: /
+    port: http
   initialDelaySeconds: 10
-  periodSeconds: 15
-  timeoutSeconds: 5
+  periodSeconds: 5
   successThreshold: 1
-  failureThreshold: 2
+  timeoutSeconds: 2
+  failureThreshold: 3
 
 hpa:
   enabled: true

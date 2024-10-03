@@ -41,9 +41,11 @@ spec:
               containerPort: 3000
               protocol: TCP
         readinessProbe:
-          port: 3000
+          httpGet:
+            port: 3000
         livenessProbe:
-          port: 3000
+          httpGet:
+            port: 3000
         ingress:
           enabled: true
           className: ingress-external

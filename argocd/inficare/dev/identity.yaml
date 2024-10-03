@@ -43,9 +43,11 @@ spec:
               containerPort: 8080
               protocol: TCP
         readinessProbe:
-          port: 8080
+          tcpSocket:
+            port: 8000
         livenessProbe:
-          port: 8080
+          tcpSocket:
+            port: 3000
         ingress:
           enabled: true
           className: ingress-external
