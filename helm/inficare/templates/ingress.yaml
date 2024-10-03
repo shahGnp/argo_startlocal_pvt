@@ -20,12 +20,7 @@ spec:
     {{- range .Values.ingress.hosts }}
     - hosts:
         - {{ .host | quote }}
-      secretName:
-        {{- if contains "local" .host }}
-        {{ .host | replace "." "-" }}-cert-tls
-        {{- else }}
-        {{ .host }}-cert-tls
-        {{- end }}
+      secretName: {{ if contains "local" .host }}{{ $.Values.app.name }}-{{ .host | replace "." "-" }}-cert-tls{{ else }}{{ $.Values.app.name }}-{{ .host }}-cert-tls{{ end }}
     {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
