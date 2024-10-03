@@ -43,9 +43,11 @@ spec:
               containerPort: 8080
               protocol: TCP
         readinessProbe:
+          type: tcpSocket
           tcpSocket:
             port: 8080
         livenessProbe:
+          type: tcpSocket
           tcpSocket:
             port: 8080
         ingress:
