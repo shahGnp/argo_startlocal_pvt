@@ -96,6 +96,8 @@ fullnameOverride: ""
 serviceAccount:
   create: true
   automount: true
+  annotations:
+    {}
 
 networkPolicy:
   enabled: true
@@ -150,13 +152,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
 volumes: []

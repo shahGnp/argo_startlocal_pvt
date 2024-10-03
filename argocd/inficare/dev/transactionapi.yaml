@@ -58,10 +58,6 @@ spec:
               paths:
                 - path: /transaction/
                   pathType: ImplementationSpecific
-        service:
-          name: transaction-dev
-        serviceAccount:
-          name: transaction-dev-sa
         podSecurityContext:
           enabled: true
           fsGroup: 1000

@@ -58,10 +58,6 @@ spec:
               paths:
                 - path: /identity/
                   pathType: ImplementationSpecific
-        service:
-          name: identity-dev
-        serviceAccount:
-          name: identity-dev-sa
         podSecurityContext:
           enabled: true
           fsGroup: 1000

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "inficare.fullname" . }}
+  name: {{ include "inficare.fullname" . }}-deployment
   labels:
     {{- include "inficare.labels" . | nindent 4 }}
   annotations:
