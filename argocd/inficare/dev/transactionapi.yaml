@@ -44,10 +44,10 @@ spec:
               protocol: TCP
         readinessProbe:
           tcpSocket:
-            port: 8000
+            port: 8080
         livenessProbe:
           tcpSocket:
-            port: 3000
+            port: 8080
         ingress:
           enabled: true
           className: ingress-external
