@@ -50,7 +50,7 @@ spec:
           enabled: true
           className: ingress-external
           hosts:
-            - host: hbl-admin.iremit.com.my
+            - host: hbl-admin.startlocal
               paths:
                 - path: /
                   pathType: ImplementationSpecific
