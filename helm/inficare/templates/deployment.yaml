@@ -43,7 +43,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.image.secretref }}
       {{- end }}
-      serviceAccountName: {{ include "inficare.serviceAccountName" . }}
+      serviceAccountName: {{ include "inficare.serviceAccountName" . }}-sa
       {{- if  .Values.podSecurityContext.enabled }}
       securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
       {{- end }}
