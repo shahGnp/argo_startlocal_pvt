@@ -56,8 +56,8 @@ spec:
           hosts:
             - host: hbl-admin.iremit.com.my
               paths:
-                - path: /identity/
-                  pathType: ImplementationSpecific
+                - path: /identity
+                  pathType: Prefix
         podSecurityContext:
           enabled: true
           fsGroup: 1000
