@@ -6,6 +6,8 @@ metadata:
   labels:
     {{- include "inficare.labels" . | nindent 4 }}
   annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+          log_format custom_format '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"';
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
