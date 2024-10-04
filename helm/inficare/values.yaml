@@ -115,7 +115,6 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
-
   whiteList:
     ips: []
 
