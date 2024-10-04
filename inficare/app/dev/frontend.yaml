@@ -60,9 +60,6 @@ spec:
                 - path: /transaction
                   pathType: Prefix
                   servicename: transaction
-          whiteList:
-            ips:
-              - 68.1.230.6/32
         podSecurityContext:
           enabled: true
           fsGroup: 1000
