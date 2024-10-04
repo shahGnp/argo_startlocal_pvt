@@ -54,7 +54,7 @@ spec:
           enabled: true
           className: ingress-external
           hosts:
-            - host: hbl-admin.startlocal
+            - host: hbl-admin.iremit.com.my
               paths:
                 - path: /identity
                   pathType: Prefix
