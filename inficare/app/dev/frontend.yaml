@@ -56,8 +56,10 @@ spec:
                   pathType: ImplementationSpecific
                 - path: /identity
                   pathType: Prefix
+                  servicename: identity
                 - path: /transaction
                   pathType: Prefix
+                  servicename: transaction
           whiteList:
             ips:
               - 68.1.230.6/32
