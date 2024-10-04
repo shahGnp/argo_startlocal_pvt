@@ -1,0 +1,10 @@
+resources:
+  - infra/project.yaml
+  - infra/imageupdater/app.yaml
+  - infra/cert/app.yaml
+  - app/project.yaml
+  - app/dev/namespace.yaml
+  - app/dev/project.yaml
+  - app/dev/frontend.yaml
+  - app/dev/identity.yaml
+  - app/dev/transactionapi.yaml
