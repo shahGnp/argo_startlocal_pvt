@@ -17,6 +17,7 @@ metadata:
     {{- end }}
     nginx.ingress.kubernetes.io/real-ip-header: "X-Forwarded-For"
     nginx.ingress.kubernetes.io/set-real-ip-from: "0.0.0.0/0"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
 spec:
   {{- with .Values.ingress.className }}
   ingressClassName: {{ . }}
