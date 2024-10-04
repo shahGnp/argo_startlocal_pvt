@@ -1,0 +1,51 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "inficare.fullname" . }}-ingress
+  labels:
+    {{- include "inficare.labels" . | nindent 4 }}
+  annotations:
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #       log_format custom_format '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"';
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    # {{- if and .Values.ingress.enabled (eq .Values.ingress.className "ingress-internal") .Values.ingress.whiteList.ips }}
+    # nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.whiteList.ips | join ", " }}
+    # {{- end }}
+    {{- if .Values.ingress.whiteList.ips }}
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.whiteList.ips | join ", " }}
+    {{- end }}
+    nginx.ingress.kubernetes.io/x-forwarded-for: "$proxy_add_x_forwarded_for"
+    nginx.ingress.kubernetes.io/real-ip-header: "X-Forwarded-For"
+    nginx.ingress.kubernetes.io/set-real-ip-from: "10.42.0.0/16"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+spec:
+  {{- with .Values.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  tls:
+    {{- range .Values.ingress.hosts }}
+    - hosts:
+        - {{ .host | quote }}
+      secretName: {{ if contains "local" .host }}{{ $.Values.app.name }}-{{ .host | replace "." "-" }}-cert-tls{{ else }}{{ $.Values.app.name }}-{{ .host }}-cert-tls{{ end }}
+    {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- with .pathType }}
+            pathType: {{ . }}
+            {{- end }}
+            backend:
+              service:
+                name: {{- if .servicename }} {{ .servicename }}-{{ $.Values.app.env }}-{{ $.Chart.Name }}-svc {{- else }} {{ include "inficare.fullname" $ }}-svc {{- end }}
+                port:
+                  number: {{ $.Values.service.http.port }}
+          {{- end }}
+    {{- end }}
+{{- end }}

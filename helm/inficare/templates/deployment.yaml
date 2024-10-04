@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "inficare.fullname" . }}-deployment
+  labels:
+    {{- include "inficare.labels" . | nindent 4 }}
+  annotations:
+    {{- include "inficare.annotations" . | nindent 4 }}
+spec:
+  {{- if not .Values.hpa.enabled }}
+  replicas: {{ .Values.repicaCount }}
+  {{ else }}
+  replicas: {{ .Values.hpa.minReplicas }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "inficare.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- if .Values.app.vault}}
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/ca-cert: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        vault.hashicorp.com/role: "{{ .Values.app.name}}-{{ .Values.app.env}}"
+        vault.hashicorp.com/agent-inject-secret-config: '{{ .Values.app.name}}/{{ .Values.app.env}}'
+        vault.hashicorp.com/agent-inject-template-config: |
+          {{`{{- with secret `}}"{{ .Values.app.name }}/{{ .Values.app.env}}"{{` -}}`}}
+          {{`{{- range $k, $v := .Data.data }}`}}
+          {{`export {{ $k }}="{{ $v }}"`}}
+          {{`{{- end }}`}}
+          {{`{{- end }}`}}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "inficare.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.image.private }}
+      imagePullSecrets:
+        - name: {{ .Values.image.secretref }}
+      {{- end }}
+      serviceAccountName: {{ include "inficare.serviceAccountName" . }}-sa
+      {{- if  .Values.podSecurityContext.enabled }}
+      securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.deployment.terminationGracePeriodSeconds }}
+      topologySpreadConstraints:
+      - topologyKey: {{ .Values.deployment.topologySpreadConstraints.topologyKey }}
+        {{- if not .Values.hpa.enabled }}
+        maxSkew: {{ .Values.deployment.topologySpreadConstraints.maxSkew }}
+        {{ else }}
+        maxSkew: {{ .Values.hpa.minReplicas }}
+        {{- end }}
+        whenUnsatisfiable: {{ .Values.deployment.topologySpreadConstraints.whenUnsatisfiable }}
+        labelSelector:
+          matchLabels:
+            {{- include "inficare.selectorLabels" . | nindent 14 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            {{- if .Values.containers.ports.https }}
+            - name: {{ default "https" .Values.containers.ports.https.name }}
+              containerPort: {{ .Values.containers.ports.https.containerPort }}
+              protocol: {{ default "TCP" .Values.containers.ports.https.protocol }}
+            {{- end }}
+
+            {{- if .Values.containers.ports.http }}
+            - name: {{ default "http" .Values.containers.ports.http.name }}
+              containerPort: {{ .Values.containers.ports.http.containerPort }}
+              protocol: {{ default "TCP" .Values.containers.ports.http.protocol }}
+            {{- end }}
+          readinessProbe:
+            {{- if eq .Values.readinessProbe.type "httpGet" }}
+            httpGet:
+              path: {{ .Values.readinessProbe.httpGet.path }}
+              port: {{ .Values.readinessProbe.httpGet.port }}
+            {{- else if eq .Values.readinessProbe.type "tcpSocket" }}
+            tcpSocket:
+              port: {{ .Values.readinessProbe.tcpSocket.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+
+          livenessProbe:
+            {{- if eq .Values.livenessProbe.type "httpGet" }}
+            httpGet:
+              path: {{ .Values.livenessProbe.httpGet.path }}
+              port: {{ .Values.livenessProbe.httpGet.port }}
+            {{- else if eq .Values.livenessProbe.type "tcpSocket" }}
+            tcpSocket:
+              port: {{ .Values.livenessProbe.tcpSocket.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

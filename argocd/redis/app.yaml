@@ -21,10 +21,10 @@ spec:
       values: |
         enabled: true
         global:
-          storageClass: longhorn
+          storageClass: nfsa-client
         master:
           persistence:
-            storageClass: longhorn
+            storageClass: nfsa-client
             size: 5Gi
           affinity:
             nodeAffinity:
@@ -38,7 +38,7 @@ spec:
               type: RuntimeDefault
         replica:
           persistence:
-            storageClass: longhorn
+            storageClass: nfsa-client
             size: 5Gi
           affinity:
             nodeAffinity:
