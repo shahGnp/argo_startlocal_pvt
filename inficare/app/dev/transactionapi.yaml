@@ -58,6 +58,9 @@ spec:
               paths:
                 - path: /transaction
                   pathType: Prefix
+          whiteList:
+            ips:
+              - 68.1.230.6/32
         podSecurityContext:
           enabled: true
           fsGroup: 1000

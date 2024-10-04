@@ -116,7 +116,7 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   whiteList:
-    ips:
+    ips: []
 
   tls: []
   #  - secretName: chart-example-tls
