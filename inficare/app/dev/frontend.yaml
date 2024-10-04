@@ -52,8 +52,14 @@ spec:
           hosts:
             - host: hbl-admin.iremit.com.my
               paths:
+            - host: hbl-admin.iremit.com.my
+              paths:
                 - path: /
                   pathType: ImplementationSpecific
+                - path: /identity
+                  pathType: Prefix
+                - path: /transaction
+                  pathType: Prefix
           whiteList:
             ips:
               - 68.1.230.6/32

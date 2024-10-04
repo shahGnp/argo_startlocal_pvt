@@ -51,16 +51,7 @@ spec:
           tcpSocket:
             port: 8080
         ingress:
-          enabled: true
-          className: ingress-external
-          hosts:
-            - host: hbl-admin.iremit.com.my
-              paths:
-                - path: /identity
-                  pathType: Prefix
-          whiteList:
-            ips:
-              - 68.1.230.6/32
+          enabled: false
         podSecurityContext:
           enabled: true
           fsGroup: 1000
