@@ -52,8 +52,6 @@ spec:
           hosts:
             - host: hbl-admin.iremit.com.my
               paths:
-            - host: hbl-admin.iremit.com.my
-              paths:
                 - path: /
                   pathType: ImplementationSpecific
                 - path: /identity
