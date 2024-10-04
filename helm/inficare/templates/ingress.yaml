@@ -15,6 +15,8 @@ metadata:
     {{- if .Values.ingress.whiteList.ips }}
     nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.whiteList.ips | join ", " }}
     {{- end }}
+    nginx.ingress.kubernetes.io/real-ip-header: "X-Forwarded-For"
+    nginx.ingress.kubernetes.io/set-real-ip-from: "0.0.0.0/0"
 spec:
   {{- with .Values.ingress.className }}
   ingressClassName: {{ . }}
