@@ -9,7 +9,10 @@ metadata:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- if and .Values.ingress.enabled (eq .Values.ingress.className "ingress-internal") .Values.ingress.whiteList.ips }}
+    # {{- if and .Values.ingress.enabled (eq .Values.ingress.className "ingress-internal") .Values.ingress.whiteList.ips }}
+    # nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.whiteList.ips | join ", " }}
+    # {{- end }}
+    {{- if .Values.ingress.whiteList.ips }}
     nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.ingress.whiteList.ips | join ", " }}
     {{- end }}
 spec:
