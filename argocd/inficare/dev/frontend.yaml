@@ -54,7 +54,7 @@ spec:
               paths:
                 - path: /
                   pathType: ImplementationSpecific
-          whiteLists:
+          whiteList:
             ips:
               - 108.18.119.221/32
         podSecurityContext:

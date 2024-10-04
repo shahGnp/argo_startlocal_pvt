@@ -58,7 +58,7 @@ spec:
               paths:
                 - path: /transaction
                   pathType: Prefix
-          whiteLists:
+          whiteList:
             ips:
               - 108.18.119.221/32
         podSecurityContext:
