@@ -16,7 +16,7 @@ metadata:
     notifications.argoproj.io/subscribe.on-deleted.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-deployed.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-health-degraded.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-sync-failed.slace: argo-notifications
+    notifications.argoproj.io/subscribe.on-sync-failed.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argo-notifications
 spec:
@@ -58,6 +58,9 @@ spec:
               paths:
                 - path: /transaction
                   pathType: Prefix
+          whiteList:
+            ips:
+              - 108.18.119.221/32
         podSecurityContext:
           enabled: true
           fsGroup: 1000
