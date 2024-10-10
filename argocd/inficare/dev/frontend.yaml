@@ -55,10 +55,8 @@ spec:
                 - path: /
                   pathType: ImplementationSpecific
         podSecurityContext:
-          enabled: true
           fsGroup: 1000
         securityContext:
-          enabled: true
           runAsUser: 1000
           runAsNonRoot: true
           privileged: false

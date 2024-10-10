@@ -59,10 +59,8 @@ spec:
                 - path: /transaction
                   pathType: Prefix
         podSecurityContext:
-          enabled: true
           fsGroup: 1000
         securityContext:
-          enabled: true
           runAsUser: 1000
           runAsNonRoot: true
           privileged: false
