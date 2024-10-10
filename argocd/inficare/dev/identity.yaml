@@ -52,7 +52,7 @@ spec:
             port: 8080
         ingress:
           enabled: true
-          className: ingress-external
+          className: ingress-internal
           hosts:
             - host: hbl-admin.startlocal
               paths:

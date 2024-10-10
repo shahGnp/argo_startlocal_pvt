@@ -52,16 +52,16 @@ spec:
             port: 8080
         ingress:
           enabled: true
-          className: ingress-external
+          className: ingress-internal
           hosts:
             - host: hbl-admin.startlocal
               paths:
                 - path: /transaction
                   pathType: Prefix
-        securityContext:
+        podSecurityContext:
           enabled: true
           fsGroup: 1000
-        containerSecurityContext:
+        securityContext:
           enabled: true
           runAsUser: 1000
           runAsNonRoot: true
