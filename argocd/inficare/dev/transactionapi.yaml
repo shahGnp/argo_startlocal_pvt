@@ -58,7 +58,7 @@ spec:
               paths:
                 - path: /transaction
                   pathType: Prefix
-        podSecurityContext:
+        securityContext:
           enabled: true
           fsGroup: 1000
         containerSecurityContext:
