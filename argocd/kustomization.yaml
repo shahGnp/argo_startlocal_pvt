@@ -1,7 +1,7 @@
 resources:
   - infra/project.yaml
   - infra/imageupdater/app.yaml
-  - infra/cert/app.yaml
+  # - infra/cert/app.yaml
   # - infra/openebs.yaml
   - redis/project.yaml
   - redis/app.yaml

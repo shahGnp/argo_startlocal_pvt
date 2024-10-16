@@ -53,10 +53,8 @@ spec:
         ingress:
           enabled: false
         podSecurityContext:
-          enabled: true
           fsGroup: 1000
-        containerSecurityContext:
-          enabled: true
+        securityContext:
           runAsUser: 1000
           runAsNonRoot: true
           privileged: false

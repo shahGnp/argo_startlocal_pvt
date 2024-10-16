@@ -48,17 +48,15 @@ spec:
             port: 3000
         ingress:
           enabled: true
-          className: ingress-external
+          className: ingress-internal
           hosts:
             - host: hbl-admin.startlocal
               paths:
                 - path: /
                   pathType: ImplementationSpecific
         podSecurityContext:
-          enabled: true
           fsGroup: 1000
-        containerSecurityContext:
-          enabled: true
+        securityContext:
           runAsUser: 1000
           runAsNonRoot: true
           privileged: false
