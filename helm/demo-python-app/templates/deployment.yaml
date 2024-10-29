@@ -18,3 +18,24 @@ spec:
       containers:
         - name: {{ .Values.appName }}-app
           image: {{ .Values.image.name}}:{{ .Values.image.tag}}
+
+          securityContext:
+            runAsUser: 1000
+            runAsNonRoot: true
+            privileged: false
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: "RuntimeDefault"
+      securityContext:
+        fsGroup: 1000
+
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/worker
+                    operator: Exists
