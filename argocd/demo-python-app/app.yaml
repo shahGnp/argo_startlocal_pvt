@@ -7,7 +7,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: shahgnp/demo-python-app:~1.0
-    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/argocd-startsml
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/argocd-startsm
     argocd-image-updater.argoproj.io/git-branch: main
 spec:
   destination:
