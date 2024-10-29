@@ -18,6 +18,9 @@ spec:
       containers:
         - name: {{ .Values.appName }}-app
           image: {{ .Values.image.name}}:{{ .Values.image.tag}}
+          command: ["/bin/sh", "-c"]
+          args:
+            - "/bin/sh /python-docker/secrets && python3 -m flask run --host=0.0.0.0"
           securityContext:
             runAsUser: 1000
             runAsNonRoot: true
