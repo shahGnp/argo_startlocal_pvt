@@ -18,10 +18,8 @@ spec:
       containers:
         - name: {{ .Values.appName }}-app
           image: {{ .Values.image.name}}:{{ .Values.image.tag}}
-          command:
-            ['sh', '-c']
           args:
-            ['source /vault/secrets/config && python3 -m flask run --host=0.0.0.0']
+            ['sh', '-c', 'source /python-docker/secrets && python3 -m flask run --host=0.0.0.0']
           securityContext:
             runAsUser: 1000
             runAsNonRoot: true
