@@ -18,9 +18,10 @@ spec:
       containers:
         - name: {{ .Values.appName }}-app
           image: {{ .Values.image.name}}:{{ .Values.image.tag}}
-          env:
-          - name: BASH_ENV
-            value: /python-docker/secrets
+          command:
+            ['sh', '-c']
+          args:
+            ['source /vault/secrets/config && python3 -m flask run --host=0.0.0.0']
           securityContext:
             runAsUser: 1000
             runAsNonRoot: true
