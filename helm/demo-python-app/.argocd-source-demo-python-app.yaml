@@ -4,5 +4,5 @@ helm:
     value: shahgnp/demo-python-app
     forcestring: true
   - name: image.tag
-    value: 1.0.14
+    value: 1.0.15
     forcestring: true
