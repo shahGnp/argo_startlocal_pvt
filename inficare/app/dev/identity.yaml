@@ -19,6 +19,12 @@ metadata:
     notifications.argoproj.io/subscribe.on-sync-failed.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-deleted.googlechat: argo-notifications
+    notifications.argoproj.io/subscribe.on-deployed.googlechat: argo-notifications
+    notifications.argoproj.io/subscribe.on-health-degraded.googlechat: argo-notifications
+    notifications.argoproj.io/subscribe.on-sync-failed.googlechat: argo-notifications
+    notifications.argoproj.io/subscribe.on-sync-status-unknown.googlechat: argo-notifications
+    notifications.argoproj.io/subscribe.on-sync-succeeded.googlechat: argo-notifications
 spec:
   project: dev
   destination:
