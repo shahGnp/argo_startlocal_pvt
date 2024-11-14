@@ -20,13 +20,13 @@ metadata:
     notifications.argoproj.io/subscribe.on-sync-failed.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-deleted.googlechat: argo-notifications
-    notifications.argoproj.io/subscribe.on-created.googlechat: argo-notifications
-    notifications.argoproj.io/subscribe.on-deployed.googlechat: argo-notifications
-    notifications.argoproj.io/subscribe.on-health-degraded.googlechat: argo-notifications
-    notifications.argoproj.io/subscribe.on-sync-failed.googlechat: argo-notifications
-    notifications.argoproj.io/subscribe.on-sync-status-unknown.googlechat: argo-notifications
-    notifications.argoproj.io/subscribe.on-sync-succeeded.goglechat: argo-notifications
+    notifications.argoproj.io/subscribe.on-deleted.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-created.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-deployed.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-health-degraded.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-sync-failed.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-sync-status-unknown.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-sync-succeeded.googlechat: spaceName
 spec:
   project: dev
   destination:
