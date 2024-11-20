@@ -41,7 +41,7 @@ spec:
         namespace: dev
         image:
           repository: devhblimageregistry.azurecr.io/frontendadmin
-          tag: 4353
+          tag: main-1732094705-9338580
           private: true
           secretref: acr-secret
         containers:
