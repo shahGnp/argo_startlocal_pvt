@@ -2,19 +2,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: frontend-dev
+  name: transaction-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd-image-updater.argoproj.io/image-list: "frontendadmin=devhblimageregistry.azurecr.io/frontendadmin"
-    argocd-image-updater.argoproj.io/frontendadmin.allow-tags: regexp:^main-([0-9]{10})-([a-f0-9]{7})
+    argocd-image-updater.argoproj.io/image-list: "transactionservice=devhblimageregistry.azurecr.io/transactionservice"
+    argocd-image-updater.argoproj.io/transactionservice.allow-tags: regexp:^main-([0-9]{10})-([a-f0-9]{7})
     argocd-image-updater.argoproj.io/write-back-method: "git:secret:argocd/argocd-startsml"
-    argocd-image-updater.argoproj.io/frontendadmin.pull-secret: "secret:argocd/acr-secret"
-    argocd-image-updater.argoproj.io/frontendadmin.update-strategy: name
+    argocd-image-updater.argoproj.io/transactionservice.pull-secret: "secret:argocd/acr-secret"
+    argocd-image-updater.argoproj.io/transactionservice.update-strategy: name
     argocd-image-updater.argoproj.io/git-branch: "main"
-    notifications.argoproj.io/subscribe.on-deleted.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-created.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-deleted.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-deployed.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-health-degraded.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-sync-failed.slack: argo-notifications
@@ -40,36 +40,26 @@ spec:
       values: |
         namespace: dev
         image:
-          repository: devhblimageregistry.azurecr.io/frontendadmin
-          tag: main-1732094705-9338580
+          repository: devhblimageregistry.azurecr.io/transactionservice
+          tag: main-1727413565-933b862
           private: true
           secretref: acr-secret
         containers:
           ports:
             http:
               name: http
-              containerPort: 3000
+              containerPort: 8080
               protocol: TCP
         readinessProbe:
-          httpGet:
-            port: 3000
+          type: tcpSocket
+          tcpSocket:
+            port: 8080
         livenessProbe:
-          httpGet:
-            port: 3000
+          type: tcpSocket
+          tcpSocket:
+            port: 8080
         ingress:
-          enabled: true
-          className: ingress-external
-          hosts:
-            - host: hbl-admin.iremit.com.my
-              paths:
-                - path: /
-                  pathType: ImplementationSpecific
-                - path: /identity
-                  pathType: Prefix
-                  servicename: identity
-                - path: /transaction
-                  pathType: Prefix
-                  servicename: transaction
+          enabled: false
         podSecurityContext:
           fsGroup: 1000
         securityContext:
@@ -90,8 +80,8 @@ spec:
                     - key: node-role.kubernetes.io/worker
                       operator: Exists
         app:
-          vault: false
-          name: frontend
+          vault: true
+          name: transactionservice
           env: dev
           cert: false
   syncPolicy:
