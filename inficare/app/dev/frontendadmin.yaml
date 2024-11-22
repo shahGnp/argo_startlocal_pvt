@@ -72,6 +72,15 @@ spec:
                   servicename: transaction
         podSecurityContext:
           fsGroup: 1000
+          runAsUser: 1000
+          runAsNonRoot: true
+          privileged: false
+          readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+          seccompProfile:
+            type: "RuntimeDefault"
         securityContext:
           runAsUser: 1000
           runAsNonRoot: true
