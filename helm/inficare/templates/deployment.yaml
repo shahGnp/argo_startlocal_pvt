@@ -34,6 +34,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
         vault.hashicorp.com/agent-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
+        vault.hashicorp.com/agent-inject-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
       labels:
         {{- include "inficare.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
