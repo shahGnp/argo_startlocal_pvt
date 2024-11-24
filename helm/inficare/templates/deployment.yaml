@@ -21,11 +21,11 @@ spec:
         {{- if .Values.app.vault}}
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/agent-init-first: "true"
-        vault.hashicorp.com/agent-inject-init-security-context: |
+        vault.hashicorp.com/agent-init-security-context: |
           securityContext:
             seccompProfile:
               type: RuntimeDefault
-        vault.hashicorp.com/agent-inject-sidecar-security-context: |
+        vault.hashicorp.com/agent-inject-security-context: |
           securityContext:
             seccompProfile:
               type: RuntimeDefault
