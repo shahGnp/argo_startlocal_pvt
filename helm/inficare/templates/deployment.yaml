@@ -21,14 +21,8 @@ spec:
         {{- if .Values.app.vault}}
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/agent-init-first: "true"
-        vault.hashicorp.com/agent-init-security-context: |
-          securityContext:
-            seccompProfile:
-              type: RuntimeDefault
-        vault.hashicorp.com/agent-security-context: |
-          securityContext:
-            seccompProfile:
-              type: RuntimeDefault
+        vault.hashicorp.com/agent-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
+        vault.hashicorp.com/agent-init-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
         vault.hashicorp.com/ca-cert: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
         vault.hashicorp.com/role: "{{ .Values.app.name}}-{{ .Values.app.env}}"
         vault.hashicorp.com/agent-inject-secret-config: 'inficare/{{ .Values.app.name}}/{{ .Values.app.env}}'
