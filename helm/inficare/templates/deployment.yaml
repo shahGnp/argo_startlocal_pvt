@@ -29,8 +29,6 @@ spec:
           {{`export {{ $k }}="{{ $v }}"`}}
           {{`{{- end }}`}}
           {{`{{- end }}`}}
-        vault.hashicorp.com/agent-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
-        vault.hashicorp.com/agent-init-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
         vault.hashicorp.com/agent-init-first: "true"
         vault.hashicorp.com/agent-inject-init-security-context: |
           securityContext:
