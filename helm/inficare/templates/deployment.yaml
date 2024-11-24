@@ -25,7 +25,7 @@ spec:
           securityContext:
             seccompProfile:
               type: RuntimeDefault
-        vault.hashicorp.com/agent-inject-security-context: |
+        vault.hashicorp.com/agent-security-context: |
           securityContext:
             seccompProfile:
               type: RuntimeDefault
