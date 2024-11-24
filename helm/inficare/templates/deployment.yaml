@@ -30,11 +30,11 @@ spec:
           {{`{{- end }}`}}
           {{`{{- end }}`}}
         vault.hashicorp.com/agent-init-first: "true"
-        vault.hashicorp.com/agent-security-context: |
+        vault.hashicorp.com/agent-inject-init-security-context: |
           securityContext:
             seccompProfile:
               type: RuntimeDefault
-        vault.hashicorp.com/agent-init-security-context: |
+        vault.hashicorp.com/agent-inject-sidecar-security-context: |
           securityContext:
             seccompProfile:
               type: RuntimeDefault
