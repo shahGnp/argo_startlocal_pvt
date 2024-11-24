@@ -63,7 +63,9 @@ spec:
                 - path: /
                   pathType: ImplementationSpecific
         podSecurityContext:
-          fsGroup: 1000
+          fsGroup: 1001
+          seccompProfile:
+            type: RuntimeDefault
         securityContext:
           runAsUser: 1000
           runAsNonRoot: true
