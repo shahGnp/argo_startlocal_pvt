@@ -69,16 +69,7 @@ spec:
         labelSelector:
           matchLabels:
             {{- include "inficare.selectorLabels" . | nindent 14 }}
-      initContainers:
-        - name: vault-agent-init
-          securityContext:
-            seccompProfile:
-              type: RuntimeDefault
       containers:
-        - name: vault-agent
-          securityContext:
-            seccompProfile:
-              type: RuntimeDefault
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
