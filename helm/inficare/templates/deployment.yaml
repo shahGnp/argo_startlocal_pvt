@@ -30,14 +30,6 @@ spec:
           {{`{{- end }}`}}
           {{`{{- end }}`}}
         vault.hashicorp.com/agent-init-first: "true"
-        vault.hashicorp.com/agent-inject-init-security-context: |
-          securityContext:
-            seccompProfile:
-              type: RuntimeDefault
-        vault.hashicorp.com/agent-inject-sidecar-security-context: |
-          securityContext:
-            seccompProfile:
-              type: RuntimeDefault
         {{- end }}
       labels:
         {{- include "inficare.labels" . | nindent 8 }}
@@ -77,7 +69,16 @@ spec:
         labelSelector:
           matchLabels:
             {{- include "inficare.selectorLabels" . | nindent 14 }}
+      initContainers:
+        - name: vault-agent-init
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
       containers:
+        - name: vault-agent
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
