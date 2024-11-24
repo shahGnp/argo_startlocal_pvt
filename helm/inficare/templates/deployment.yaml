@@ -30,6 +30,14 @@ spec:
           {{`{{- end }}`}}
           {{`{{- end }}`}}
         vault.hashicorp.com/agent-init-first: "true"
+        vault.hashicorp.com/agent-set-security-context: |
+          securityContext:
+              seccompProfile:
+                type: RuntimeDefault
+        vault.hashicorp.com/agent-inject-set-security-context: |
+        securityContext:
+            seccompProfile:
+              type: RuntimeDefault
         {{- end }}
       labels:
         {{- include "inficare.labels" . | nindent 8 }}
