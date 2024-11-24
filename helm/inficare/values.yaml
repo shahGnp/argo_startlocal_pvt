@@ -124,13 +124,11 @@ ingress:
   #      - chart-example.local
 
 podSecurityContext:
-  enabled: false
   fsGroup: 1001
   seccompProfile:
     type: RuntimeDefault
 
 containerSecurityContext:
-  enabled: false
   runAsUser: 1001
   runAsNonRoot: true
   privileged: false
