@@ -92,6 +92,7 @@ spec:
                     - key: node-role.kubernetes.io/worker
                       operator: Exists
         app:
+          project: inficare
           vault: true
           name: frontendadmin
           env: dev

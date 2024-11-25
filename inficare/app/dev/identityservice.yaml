@@ -83,6 +83,7 @@ spec:
                       operator: Exists
         app:
           vault: true
+          project: inficare
           name: identityservice
           env: dev
           cert: false

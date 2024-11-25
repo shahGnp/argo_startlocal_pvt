@@ -171,6 +171,7 @@ tolerations: []
 affinity: {}
 
 app:
+  project: inficare
   name: inficare
   vault: true
   env: dev

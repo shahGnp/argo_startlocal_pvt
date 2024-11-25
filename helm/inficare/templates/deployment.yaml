@@ -21,11 +21,13 @@ spec:
         {{- if .Values.app.vault}}
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/agent-init-first: "true"
+        vault.hashicorp.com/agent-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
+        vault.hashicorp.com/agent-init-json-patch: '[{"op": "replace", "path": "/securityContext/seccompProfile", "value": {"type": "RuntimeDefault"}}]'
         vault.hashicorp.com/ca-cert: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
         vault.hashicorp.com/role: "{{ .Values.app.name}}-{{ .Values.app.env}}"
-        vault.hashicorp.com/agent-inject-secret-config: 'inficare/{{ .Values.app.name}}/{{ .Values.app.env}}'
+        vault.hashicorp.com/agent-inject-secret-config: '{{ .Values.app.project }}/{{ .Values.app.name}}/{{ .Values.app.env}}'
         vault.hashicorp.com/agent-inject-template-config: |
-          {{`{{- with secret `}}"inficare/{{ .Values.app.name }}/{{ .Values.app.env }}"{{` -}}`}}
+          {{`{{- with secret `}}"{{ .Values.app.project }}/{{ .Values.app.name }}/{{ .Values.app.env }}"{{` -}}`}}
           {{`{{- range $k, $v := .Data.data }}`}}
           {{`export {{ $k }}="{{ $v }}"`}}
           {{`{{- end }}`}}
