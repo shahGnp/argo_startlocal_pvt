@@ -8,7 +8,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: "frontendadmin=devhblimageregistry.azurecr.io/frontendadmin"
-    argocd-image-updater.argoproj.io/frontendadmin.allow-tags: regexp:^main-([0-9]{10})-([a-f0-9]{7})
+    argocd-image-updater.argoproj.io/frontendadmin.allow-tags: regexp:^frontend_k8s_test-([0-9]{10})-([a-f0-9]{7})
     argocd-image-updater.argoproj.io/write-back-method: "git:secret:argocd/argocd-startsml"
     argocd-image-updater.argoproj.io/frontendadmin.pull-secret: "secret:argocd/acr-secret"
     argocd-image-updater.argoproj.io/frontendadmin.update-strategy: name
@@ -41,7 +41,7 @@ spec:
         namespace: dev
         image:
           repository: devhblimageregistry.azurecr.io/frontendadmin
-          tag: main-1732094705-9338580
+          tag: frontend_k8s_test-1732524718-f21c77f
           private: true
           secretref: acr-secret
         containers:
