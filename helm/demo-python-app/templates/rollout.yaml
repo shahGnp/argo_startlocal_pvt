@@ -34,6 +34,13 @@ spec:
               type: "RuntimeDefault"
       securityContext:
         fsGroup: 1000
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/worker
+                    operator: Exists
   strategy:
     canary:
       steps:
@@ -47,11 +54,3 @@ spec:
         - pause:
             duration: 30s
         - setWeight: 100
-
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.kubernetes.io/worker
-                    operator: Exists
