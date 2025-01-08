@@ -1,7 +1,7 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Rollout
 metadata:
-  name: {{ .Values.appName }}-deployment
+  name: {{ .Values.appName }}-Rollout
   labels:
     app: {{ .Values.appName }}
 spec:
@@ -34,6 +34,16 @@ spec:
               type: "RuntimeDefault"
       securityContext:
         fsGroup: 1000
+    strategy:
+  canary:
+    steps:
+      - setWeight: 25
+      - pause: {duration: 30s}
+      - setWeight: 50
+      - pause: {duration: 30s}
+      - setWeight: 75
+      - pause: {duration: 30s}
+      - setWeight: 100
 
       affinity:
         nodeAffinity:
