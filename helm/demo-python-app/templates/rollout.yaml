@@ -4,6 +4,15 @@ metadata:
   name: {{ .Values.appName }}-rollout
   labels:
     app: {{ .Values.appName }}
+  annotations:
+    notifications.argoproj.io/subscribe.on-rollout-completed.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-rollout-step-completed.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-rollout-updated.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-rollout-paused.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-rollout-aborted.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-scaling-replica-set.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-analysis-run-error.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-analysis-run-failed.slack: argo-notifications
 spec:
   replicas: {{ .Values.replicas }}
   selector:
