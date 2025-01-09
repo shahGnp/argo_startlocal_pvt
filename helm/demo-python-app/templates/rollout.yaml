@@ -13,6 +13,14 @@ metadata:
     notifications.argoproj.io/subscribe.on-scaling-replica-set.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-analysis-run-error.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-analysis-run-failed.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-rollout-completed.slack: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-step-completed.slack: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-updated.slack: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-paused.slack: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-aborted.slack: spaceName
+    notifications.argoproj.io/subscribe.on-scaling-replica-set.slack: spaceName
+    notifications.argoproj.io/subscribe.on-analysis-run-error.slack: spaceName
+    notifications.argoproj.io/subscribe.on-analysis-run-failed.slack: spaceName
 spec:
   replicas: {{ .Values.replicas }}
   selector:
