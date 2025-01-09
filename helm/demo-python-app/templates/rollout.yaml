@@ -13,14 +13,14 @@ metadata:
     notifications.argoproj.io/subscribe.on-scaling-replica-set.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-analysis-run-error.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-analysis-run-failed.slack: argo-notifications
-    # notifications.argoproj.io/subscribe.on-rollout-completed.googlechat: spaceName
-    # notifications.argoproj.io/subscribe.on-rollout-step-completed.googlechat: spaceName
-    # notifications.argoproj.io/subscribe.on-rollout-updated.googlechat: spaceName
-    # notifications.argoproj.io/subscribe.on-rollout-paused.googlechat: spaceName
-    # notifications.argoproj.io/subscribe.on-rollout-aborted.googlechat: spaceName
-    # notifications.argoproj.io/subscribe.on-scaling-replica-set.googlechat: spaceName
-    # notifications.argoproj.io/subscribe.on-analysis-run-error.googlechat: spaceName
-    # notifications.argoproj.io/subscribe.on-analysis-run-failed.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-completed.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-step-completed.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-updated.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-paused.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-rollout-aborted.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-scaling-replica-set.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-analysis-run-error.googlechat: spaceName
+    notifications.argoproj.io/subscribe.on-analysis-run-failed.googlechat: spaceName
 spec:
   replicas: {{ .Values.replicas }}
   selector:
