@@ -9,20 +9,20 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: shahgnp/demo-python-app:~1.0
     argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/argocd-startsm
     argocd-image-updater.argoproj.io/git-branch: main
-    notifications.argoproj.io/subscribe.on-created.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-deleted.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-deployed.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-health-degraded.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-sync-failed.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-deleted.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-created.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-deployed.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-health-degraded.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-sync-failed.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-sync-status-unknown.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-sync-succeeded.googlechat: spaceName
+    # notifications.argoproj.io/subscribe.on-created.slack: argo-notifications
+    # notifications.argoproj.io/subscribe.on-deleted.slack: argo-notifications
+    # notifications.argoproj.io/subscribe.on-deployed.slack: argo-notifications
+    # notifications.argoproj.io/subscribe.on-health-degraded.slack: argo-notifications
+    # notifications.argoproj.io/subscribe.on-sync-failed.slack: argo-notifications
+    # notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: argo-notifications
+    # notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argo-notifications
+    # notifications.argoproj.io/subscribe.on-deleted.googlechat: spaceName
+    # notifications.argoproj.io/subscribe.on-created.googlechat: spaceName
+    # notifications.argoproj.io/subscribe.on-deployed.googlechat: spaceName
+    # notifications.argoproj.io/subscribe.on-health-degraded.googlechat: spaceName
+    # notifications.argoproj.io/subscribe.on-sync-failed.googlechat: spaceName
+    # notifications.argoproj.io/subscribe.on-sync-status-unknown.googlechat: spaceName
+    # notifications.argoproj.io/subscribe.on-sync-succeeded.googlechat: spaceName
 spec:
   destination:
     namespace: demo-python-app
