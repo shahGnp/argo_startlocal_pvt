@@ -6,6 +6,7 @@ metadata:
     app: {{ .Values.appName }}
   annotations:
     notifications.argoproj.io/subscribe.on-rollout-completed.slack: argo-notifications
+    notifications.argoproj.io/subscribe.on-rollout-completed.slack: spaceName
     notifications.argoproj.io/subscribe.on-rollout-step-completed.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-rollout-updated.slack: argo-notifications
     notifications.argoproj.io/subscribe.on-rollout-paused.slack: argo-notifications
