@@ -3,8 +3,8 @@ resources:
   - infra/imageupdater/app.yaml
   # - infra/cert/app.yaml
   # - infra/openebs.yaml
-  - redis/project.yaml
-  - redis/app.yaml
+  # - redis/project.yaml
+  # - redis/app.yaml
   - app/project.yaml
   - demo-python-app/app.yaml
   - demo-python-app/project.yaml
