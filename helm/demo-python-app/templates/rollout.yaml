@@ -1,26 +1,15 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: {{ .Values.rollout.enabled | ternary "argoproj.io/v1alpha1" "apps/v1" }} 
+kind: {{ .Values.rollout.enabled | ternary "Rollout" "Deployment" }}
 metadata:
-  name: {{ .Values.appName }}-rollout
+  name: {{ .Values.appName }}-{{ .Values.rollout.enabled | ternary "rollout" "deployment" }} 
   labels:
     app: {{ .Values.appName }}
   annotations:
-    notifications.argoproj.io/subscribe.on-rollout-completed.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-rollout-step-completed.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-rollout-updated.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-rollout-paused.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-rollout-aborted.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-scaling-replica-set.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-analysis-run-error.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-analysis-run-failed.slack: argo-notifications
-    notifications.argoproj.io/subscribe.on-rollout-completed.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-rollout-step-completed.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-rollout-updated.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-rollout-paused.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-rollout-aborted.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-scaling-replica-set.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-analysis-run-error.googlechat: spaceName
-    notifications.argoproj.io/subscribe.on-analysis-run-failed.googlechat: spaceName
+    {{- if .Values.rollout.enabled }}
+    {{- with .Values.rollout.notifications.annotations -}}
+      {{- toYaml . | nindent 4 -}}
+    {{- end }}
+    {{- end }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
@@ -58,9 +47,4 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/worker
                     operator: Exists
-  strategy:
-    blueGreen:
-      activeService: {{ .Values.appName }}-active
-      previewService: {{ .Values.appName }}-preview
-      autoPromotionEnabled: true # Requires manual approval for promotion
-      scaleDownDelaySeconds: 30 # Wait time before scaling down old ReplicaSet
+
