@@ -1,25 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.appName }}-preview
-  labels:
-    app: {{ .Values.appName }}
+  name: {{ .Values.appName }}-service
 spec:
   selector:
-    app: {{ .Values.appName }} # Same label as active, but Argo Rollouts manages which ReplicaSet this routes to
+    app: {{ .Values.appName }}
   ports:
-    - port: {{ .Values.port }}
+    - port: {{ .Values.port }} # Default port for image
       targetPort: {{ .Values.targetPort }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.appName }}-active
-  labels:
-    app: {{ .Values.appName }}
-spec:
-  selector:
-    app: {{ .Values.appName }} # The label selector remains the same
-  ports:
-    - port: {{ .Values.port }} # Exposed port
-      targetPort: {{ .Values.targetPort }} # Application container port

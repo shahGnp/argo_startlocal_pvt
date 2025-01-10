@@ -34,7 +34,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: {{ .Values.appName }}-app
-          image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.name}}:{{ .Values.image.tag}}
           args:
             - sh
             - -c
@@ -59,8 +59,15 @@ spec:
                   - key: node-role.kubernetes.io/worker
                     operator: Exists
   strategy:
-    blueGreen:
-      activeService: {{ .Values.appName }}-active
-      previewService: {{ .Values.appName }}-preview
-      autoPromotionEnabled: false # Requires manual approval for promotion
-      scaleDownDelaySeconds: 30 # Wait time before scaling down old ReplicaSet
+    canary:
+      steps:
+        - setWeight: 25
+        - pause:
+            duration: 30s
+        - setWeight: 50
+        - pause:
+            duration: 30s
+        - setWeight: 75
+        - pause:
+            duration: 30s
+        - setWeight: 100
