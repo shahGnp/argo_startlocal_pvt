@@ -47,4 +47,9 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/worker
                     operator: Exists
-
+  strategy:
+    blueGreen:
+      activeService: {{ .Values.appName }}-active
+      previewService: {{ .Values.appName }}-preview
+      autoPromotionEnabled: true # Requires manual approval for promotion
+      scaleDownDelaySeconds: 30 # Wait time before scaling down old ReplicaSet
