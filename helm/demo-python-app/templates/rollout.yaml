@@ -62,5 +62,5 @@ spec:
     blueGreen:
       activeService: {{ .Values.appName }}-active
       previewService: {{ .Values.appName }}-preview
-      autoPromotionEnabled: false # Requires manual approval for promotion
+      autoPromotionEnabled: true # Requires manual approval for promotion
       scaleDownDelaySeconds: 30 # Wait time before scaling down old ReplicaSet
