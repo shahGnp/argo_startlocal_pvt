@@ -48,8 +48,17 @@ spec:
                   - key: node-role.kubernetes.io/worker
                     operator: Exists
   strategy:
-    blueGreen:
-      activeService: {{ .Values.appName }}-active
-      previewService: {{ .Values.appName }}-preview
-      autoPromotionEnabled: true # Requires manual approval for promotion
-      scaleDownDelaySeconds: 30 # Wait time before scaling down old ReplicaSet
+    canary:
+      steps:
+        - setWeight: 25 # Deploy 25% of the traffic to the new version
+        - pause:
+            duration: 30s # Wait for 30 seconds
+        - setWeight: 50 # Deploy 50% of the traffic to the new version
+        - pause:
+            duration: 30s # Wait for 30 seconds
+        - setWeight: 75 # Deploy 75% of the traffic to the new version
+        - pause:
+            duration: 30s # Wait for 30 seconds
+        - setWeight: 100 # Deploy 100% of the traffic to the new version
+      maxUnavailable: 1  # Allow one replica to be unavailable during the update
+
