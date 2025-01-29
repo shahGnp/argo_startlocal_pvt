@@ -60,5 +60,5 @@ spec:
         - pause:
             duration: 30s # Wait for 30 seconds
         - setWeight: 100 # Deploy 100% of the traffic to the new version
-      maxUnavailable: 1  # Allow one replica to be unavailable during the update
+      maxUnavailable: 0  # Allow one replica to be unavailable during the update
 
