@@ -24,10 +24,10 @@ spec:
       containers:
         - name: {{ .Values.appName }}-app
           image: {{ .Values.image.name }}:{{ .Values.image.tag }}
-          args:
-            - sh
-            - -c
-            - '. /python-docker/secrets && env && python3 -m flask run --host=0.0.0.0'
+          # args:
+          #   - sh
+          #   - -c
+          #   - '. /python-docker/secrets && env && python3 -m flask run --host=0.0.0.0'
           securityContext:
             runAsUser: 1000
             runAsNonRoot: true
