@@ -1,7 +1,7 @@
 appName: demo-python-app
 replicas: 3
 
-port: 5000
+port: 80
 targetPort: 5000
 
 namespace: default
