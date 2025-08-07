@@ -66,9 +66,7 @@ spec:
       activeService: {{ .Values.appName }}-active
       previewService: {{ .Values.appName }}-preview
       autoPromotionEnabled: true
-      steps:
-        - pause:
-            duration: 30s  # Wait before promoting to active
+      scaleDownDelaySeconds: 30 # Wait time before scaling down old ReplicaSet
     {{- else }}
     type: "Recreate"  # Fallback strategy if strategy name is not recognized
     {{- end }}
