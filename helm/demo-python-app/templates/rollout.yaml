@@ -24,10 +24,6 @@ spec:
       containers:
         - name: {{ .Values.appName }}-app
           image: {{ .Values.image.name }}:{{ .Values.image.tag }}
-          # args:
-          #   - sh
-          #   - -c
-          #   - '. /python-docker/secrets && env && python3 -m flask run --host=0.0.0.0'
           securityContext:
             runAsUser: 1000
             runAsNonRoot: true
@@ -47,18 +43,35 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/worker
                     operator: Exists
+{{- if .Values.rollout.enabled }}
   strategy:
+    {{- if eq .Values.rollout.strategy "canary" }}
     canary:
+      maxUnavailable: 0  # Allow zero replicas to be unavailable during update
       steps:
-        - setWeight: 25 # Deploy 25% of the traffic to the new version
+        - setWeight: 25  # Deploy 25% of the traffic to the new version
         - pause:
-            duration: 30s # Wait for 30 seconds
-        - setWeight: 50 # Deploy 50% of the traffic to the new version
+            duration: 30s
+        - setWeight: 50
         - pause:
-            duration: 30s # Wait for 30 seconds
-        - setWeight: 75 # Deploy 75% of the traffic to the new version
+            duration: 30s
+        - setWeight: 75
         - pause:
-            duration: 30s # Wait for 30 seconds
-        - setWeight: 100 # Deploy 100% of the traffic to the new version
-      maxUnavailable: 0  # Allow one replica to be unavailable during the update
+            duration: 30s
+        - setWeight: 100
+        - pause:
+            duration: 30s
+    {{- else if eq .Values.rollout.strategy "blueGreen" }}
+    blueGreen:
+      activeService: {{ .Values.appName }}-active
+      previewService: {{ .Values.appName }}-preview
+      autoPromotionEnabled: true
+      steps:
+        - pause:
+            duration: 30s  # Wait before promoting to active
+    {{- else }}
+    type: "Recreate"  # Fallback strategy if strategy name is not recognized
+    {{- end }}
+{{- end }}
+
 

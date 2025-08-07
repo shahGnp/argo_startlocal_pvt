@@ -16,6 +16,7 @@ ingressClassName: ingress-external
 
 rollout:
   enabled: true
+  strategy: blueGreen
   notifications: 
     annotations:
       notifications.argoproj.io/subscribe.on-rollout-completed.slack: argo-notifications
