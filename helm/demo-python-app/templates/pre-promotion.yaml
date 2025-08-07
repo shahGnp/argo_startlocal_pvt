@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: pre-promotion-http-check
+spec:
+  metrics:
+    - name: preview-health
+      interval: 30s
+      count: 3
+      successCondition: result == 200
+      failureLimit: 1
+      provider:
+        web:
+          url: http://demo-python-app-preview.demo-python-app.svc.cluster.local/healthz/readiness
+          method: GET

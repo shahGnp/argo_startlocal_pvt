@@ -65,7 +65,12 @@ spec:
     blueGreen:
       activeService: {{ .Values.appName }}-active
       previewService: {{ .Values.appName }}-preview
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true           # <-- enables auto promotion
+      autoPromotionSeconds: 10             # <-- optional delay before promotion
+      scaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+          - templateName: pre-promotion-http-check
     {{- else }}
     type: "Recreate"  # Fallback strategy if strategy name is not recognized
     {{- end }}
