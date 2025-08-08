@@ -36,5 +36,5 @@ spec:
     automated:
       prune: true         # Optional: remove resources no longer defined in Git
       selfHeal: true      # Optional: revert out-of-sync live changes
-      syncOptions:
-      - CreateNamespace=true
+    syncOptions:
+    - CreateNamespace=true
