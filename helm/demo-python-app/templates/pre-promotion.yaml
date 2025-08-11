@@ -13,4 +13,4 @@ spec:
         web:
           url: http://demo-python-app-preview.demo-python-app.svc.cluster.local/healthz/readiness
           method: GET
-          jsonPath: "{\"result\": @code}"
+          jsonPath: "{result: @code}"
