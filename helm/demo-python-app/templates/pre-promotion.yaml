@@ -7,10 +7,9 @@ spec:
     - name: preview-health
       interval: 30s
       count: 3
-      successCondition: result == 200
+      successCondition: statusCode == 200
       failureLimit: 1
       provider:
         web:
           url: http://demo-python-app-preview.demo-python-app.svc.cluster.local/healthz/readiness
           method: GET
-          jsonPath: "{@statusCode}"
