@@ -71,9 +71,10 @@ spec:
       prePromotionAnalysis:
         templates:
           - templateName: pre-promotion-http-check
+      postPromotionAnalysis:
+        templates:
+          - templateName: post-promotion-http-check
     {{- else }}
     type: "Recreate"  # Fallback strategy if strategy name is not recognized
     {{- end }}
 {{- end }}
-
-
