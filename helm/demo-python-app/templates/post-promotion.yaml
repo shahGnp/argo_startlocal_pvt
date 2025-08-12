@@ -7,14 +7,12 @@ spec:
     - name: nginx-error-rate
       interval: 30s
       count: 3
-      successCondition: result < 0.1  # Less than 10% error rate
+      successCondition: result < 0.10  # Less than 10% error rate
       failureLimit: 1
       provider:
         prometheus:
           address: http://prometheus-operated.monitoring.svc.cluster.local:9090
           query: |
-            scalar(
-              (sum(rate(nginx_ingress_controller_requests{exported_service="demo-python-app-active",status=~'4..'}[5m]))
+              sum(rate(nginx_ingress_controller_requests{exported_service="demo-python-app-active",status=~'4..'}[5m]))
                 / 
-              sum(rate(nginx_ingress_controller_requests{exported_service="demo-python-app-active"}[5m])))
-            ) or vector(0)
+              sum(rate(nginx_ingress_controller_requests{exported_service="demo-python-app-active"}[5m]))
