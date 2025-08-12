@@ -7,7 +7,7 @@ spec:
     - name: nginx-error-rate
       interval: 30s
       count: 3
-      successCondition: result < 0.10  # Less than 10% error rate
+      successCondition: result[0] < 0.10  # Less than 10% error rate
       failureLimit: 1
       provider:
         prometheus:
