@@ -7,7 +7,7 @@ spec:
     - name: nginx-error-rate
       interval: 30s
       count: 3
-      successCondition: len(result) == 0 || isNaN(result) || (len(result) > 0 && result[0] < 0.10)
+      successCondition: len(result) == 0 || isNaN(result[0]) || (len(result) > 0 && result[0] < 0.10)
       failureLimit: 1
       provider:
         prometheus:
