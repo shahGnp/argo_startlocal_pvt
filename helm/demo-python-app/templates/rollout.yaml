@@ -68,9 +68,9 @@ spec:
       autoPromotionEnabled: true           # <-- enables auto promotion
       autoPromotionSeconds: 10             # <-- optional delay before promotion
       scaleDownDelaySeconds: 30
-      prePromotionAnalysis:
-        templates:
-          - templateName: pre-promotion-http-check
+      # prePromotionAnalysis:
+      #   templates:
+      #     - templateName: pre-promotion-http-check
       postPromotionAnalysis:
         templates:
           - templateName: post-promotion-http-check
