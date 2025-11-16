@@ -29,7 +29,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: helm/demo-python-app
-    repoURL: 'https://github.com/startsml/argo_startlocal.git'
+    repoURL: 'https://github.com/shahgnp/argo_startlocal_pvt.git'
     targetRevision: main
   project: demo-python-app
   syncPolicy:

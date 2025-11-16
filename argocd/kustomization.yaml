@@ -1,15 +1,6 @@
 resources:
   - infra/project.yaml
   - infra/imageupdater/app.yaml
-  # - infra/cert/app.yaml
-  # - infra/openebs.yaml
-  # - redis/project.yaml
-  # - redis/app.yaml
   - app/project.yaml
   - demo-python-app/app.yaml
   - demo-python-app/project.yaml
-  # - inficare/dev/namespace.yaml
-  # - inficare/dev/project.yaml
-  # - inficare/dev/frontend.yaml
-  # - inficare/dev/identity.yaml
-  # - inficare/dev/transactionapi.yaml

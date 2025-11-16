@@ -1,9 +1,0 @@
-resources:
-  - infra/project.yaml
-  - infra/imageupdater/app.yaml
-  - app/project.yaml
-  - app/dev/namespace.yaml
-  - app/dev/project.yaml
-  - app/dev/frontendadmin.yaml
-  - app/dev/identityservice.yaml
-  - app/dev/transactionservice.yaml

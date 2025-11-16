@@ -12,10 +12,10 @@ image:
 
 hostName: app.rke2.localdomain
 path: demo-python-app
-ingressClassName: ingress-external
+ingressClassName: ingress-internal
 
 rollout:
-  enabled: true
+  enabled: false
   strategy: blueGreen
   notifications: 
     annotations:
