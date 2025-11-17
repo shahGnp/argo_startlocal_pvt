@@ -4,5 +4,5 @@ resources:
   - app/project.yaml
   - demo-python-app/app.yaml
   - demo-python-app/project.yaml
-  - redis/app.yaml
-  - redis/project.yaml
+  # - redis/app.yaml
+  # - redis/project.yaml
